@@ -94,8 +94,12 @@ def getContinentWithFramework():
                 
     print(continent_not_extracted)
 
-    with open('framework_count_with_country.json', 'w') as file:
-            json.dump(continents_with_framework_count,file)
+    #with open('framework_count_with_country.json', 'w') as file:
+            #json.dump(continents_with_framework_count,file)
+     with open('location_not_extracted.json', 'w') as file:
+            json.dump(continent_not_extracted,file)
+
+
 
 def plot_three_popular_fw_graph(data):
     df = pd.DataFrame(data)
@@ -105,12 +109,17 @@ def plot_three_popular_fw_graph(data):
     os.makedirs(directory, exist_ok=True)
 
     top_frameworks = grouped.groupby('continent').apply(lambda x: x.nlargest(3, 'count')).reset_index(drop=True)
-
+    print(top_frameworks)
+    distinct_framework = set()
+    
     top_frameworks_dict = {}
     for _, row in top_frameworks.iterrows():
         continent = row['continent']
         framework = row['framework']
         count = row['count']
+        distinct_framework.add(framework)
+        print(distinct_framework)
+    
     
         if continent not in top_frameworks_dict:
             top_frameworks_dict[continent] = []
@@ -132,7 +141,11 @@ def plot_three_popular_fw_graph(data):
 
     plt.title('Top 3 Frameworks of All Continents')
     plt.savefig(os.path.join(directory,'top_three_frameworks.png'), bbox_inches='tight')
-    plt.show()
+    distinct_framework_list = list(distinct_framework)
+
+    with open('top_distinct_frameworks_of_github.json', 'w') as file:
+            json.dump(distinct_framework_list,file)
+    
 
 def create_table(grouped_data, merged_data):
     font_size = 12
@@ -145,12 +158,11 @@ def create_table(grouped_data, merged_data):
     os.makedirs(directory, exist_ok=True)
 
     for continent, continent_data in grouped_data.items():
-        print(continent_data)
-
+    
         merged_data = pd.DataFrame(continent_data)
                 
         table_width = 2 * cell_width
-        table_height = min((len(merged_data) + 1) * cell_height, 5000) 
+        table_height = min((len(merged_data) + 3) * cell_height, 5000) 
 
         img = Image.new('RGB', (table_width, table_height), color='white')
         draw = ImageDraw.Draw(img)
@@ -188,6 +200,8 @@ def cluster_into_continents():
             merged_data = pd.DataFrame([(key, fw['framework'], fw['count']) for key, value in grouped_data.items() for fw in value],
                             columns=['Continent', 'Framework', 'Count'])
             print(merged_data)
+            
+            create_table(grouped_data,merged_data)
 
             plot_three_popular_fw_graph(sorted_data)
             
@@ -287,8 +301,8 @@ def list_folders(directory):
 
 
 if __name__ == "__main__":
-    list_folders(os.path.join(os.getcwd(),'repositories'))
-    getContinentWithFramework()
-    cluster_into_continents()
+    #list_folders(os.path.join(os.getcwd(),'repositories'))
+    #getContinentWithFramework()
+    #cluster_into_continents()
 
 
