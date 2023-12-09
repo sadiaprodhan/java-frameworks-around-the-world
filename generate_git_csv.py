@@ -50,6 +50,5 @@ def prepare_csv(directory):
 
         
 if __name__ == "__main__":
-    #find_appropriate_repositories()
     prepare_csv(os.path.join(os.getcwd(),'repositories'))
     

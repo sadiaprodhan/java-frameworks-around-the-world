@@ -96,7 +96,7 @@ def getContinentWithFramework():
 
     #with open('framework_count_with_country.json', 'w') as file:
             #json.dump(continents_with_framework_count,file)
-     with open('location_not_extracted.json', 'w') as file:
+    with open('location_not_extracted.json', 'w') as file:
             json.dump(continent_not_extracted,file)
 
 
@@ -303,6 +303,4 @@ def list_folders(directory):
 if __name__ == "__main__":
     #list_folders(os.path.join(os.getcwd(),'repositories'))
     #getContinentWithFramework()
-    #cluster_into_continents()
-
-
+    cluster_into_continents()

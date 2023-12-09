@@ -58,26 +58,26 @@ def calculate_framework_proportion_github():
                         github_proportion.append({f'{framework}':github_proportion_dictionary_list })
                     for github_lists in  github_proportion:
                         for so_lists in stackoverflow_proportion:
-                            for key, value in github_lists.items():
-                                for framework , data in so_lists.items():
-                                    if key == framework:
-                                        print(f'framework--{framework}')
-                                        so_highest_data = data[0]
+                            for github_framework, github_data in github_lists.items():
+                                for so_framework , so_data in so_lists.items():
+                                    if github_framework == so_framework:
+                                        print(f'framework--{so_framework}')
+                                        so_highest_data = so_data[0]
                                         so_highest_continent = so_highest_data['continent']
                                         so_highest_prop = so_highest_data['proportion']
                                         print(f'In stackoverflow {so_highest_continent} has the highest proportion -- {so_highest_prop} % ')
-                                        github_highest_data = value[0]
+                                        github_highest_data = github_data[0]
                                         github_highest_continent = github_highest_data['continent']
                                         github_highest_prop = github_highest_data['proportion']
                                         print(f'In github {github_highest_continent} has the highest proportion -- {github_highest_prop} % ')
             
-                                        for values in value:
-                                            for datas in data:
+                                        for gh_value in github_data:
+                                            for s_value in so_data:
                                                 
-                                                if values['continent'] == datas['continent']:
-                                                    continent = values['continent']
-                                                    so_value = datas['proportion']
-                                                    github_value = values['proportion']
+                                                if gh_value['continent'] == s_value['continent']:
+                                                    continent = gh_value['continent']
+                                                    so_value = s_value['proportion']
+                                                    github_value = gh_value['proportion']
                                                     print(f'continent - {continent}')
                                                     print(f'SO percentage ----> {so_value}') 
                                                     print(f'Github percentage---> {github_value}')
