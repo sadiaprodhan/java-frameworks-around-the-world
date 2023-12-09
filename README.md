@@ -35,6 +35,14 @@ python3 finding_frameworks_github.py
 
 ### 3. Stack Overflow Question Analysis
 After obtaining the top 3 frameworks from each continent based on the results of Research Question 1 (RQ1), we identified a total of 5 distinct frameworks. Using these frameworks as tags, we queried the Stack Exchange Data Explorer to retrieve the top 5000 questions with the most answers, provided that the user's location was public. It's important to note that some frameworks had fewer than 5000 questions available in the Stack Exchange database, and the retrieval of questions was last performed on 23/11/2023.
+The query used is:
+
+```
+select TOP 20000 Posts.Body, Posts.Title, Posts.AnswerCount, Users.Location from Posts
+INNER JOIN Users ON Posts.OwnerUserId = Users.Id
+where Posts.Tags LIKE '%##Tag1##%' AND Users.Location IS NOT NULL AND Users.Location <> '' 
+Order By Posts.AnswerCount desc
+```
 
 For access to the questions along with user locations, please download the entire folder from the following link 
 'https://drive.google.com/drive/folders/1KoLDLys8iB05RHsvI83ERK_7sykmTaU3?usp=sharing'
